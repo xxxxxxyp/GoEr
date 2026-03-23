@@ -1,0 +1,18 @@
+# 排除前端依赖日志或包管理锁定文件（如果是纯 Python 项目可以忽略）
+package-lock.json
+yarn.lock
+
+# 排除文档里的静态资源图片
+*.svg
+*.png
+*.md
+# （注：README.md 可以保留，但如果你写了海量的实验日志 md，最好屏蔽掉）
+
+# 排除实验结果的静态数据表
+*.csv
+*.xlsx
+*.json
+
+# 排除你测试算法时生成的废弃音频或中间件
+*_temp.wav
+output_logs/
