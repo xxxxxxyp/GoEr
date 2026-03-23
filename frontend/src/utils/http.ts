@@ -3,7 +3,10 @@ import axios, { AxiosError, AxiosHeaders, type InternalAxiosRequestConfig } from
 import router from '../router'
 
 const http = axios.create({
-  baseURL: '/api/v1',
+  // 本地开发走代理，线上生产环境直接请求 Render
+  baseURL: import.meta.env.PROD 
+    ? 'https://goer-api.onrender.com/api/v1' 
+    : '/api/v1',
 })
 
 http.interceptors.request.use((config: InternalAxiosRequestConfig) => {
