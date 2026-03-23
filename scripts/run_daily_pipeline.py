@@ -37,19 +37,19 @@ async def main():
             logger.info(f"🔍 正在执行订阅规则 (ID: {sub.id}, 关键词: {sub.search_query})")
 
             try:
-                # 2. 抓取论文 (传入 None 绕过 Celery)
-                papers = fetch_arxiv_papers(None, search_query=sub.search_query, max_results=3)
+                # 2. 抓取论文 (Celery 会自动处理 self，直接传参数即可)
+                papers = fetch_arxiv_papers(search_query=sub.search_query, max_results=3)
                 logger.info(f"📥 抓取到 {len(papers)} 篇论文。")
 
                 if not papers:
                     continue
 
                 # 3. 解析文本
-                parsed_papers = parse_pdf_text(None, papers_list=papers)
+                parsed_papers = parse_pdf_text(papers_list=papers)
 
                 # 4. 调用通义千问 API 进行深度提取
                 logger.info("🧠 正在调用 Qwen 进行总结...")
-                summarized_papers = llm_summarize(None, papers_list=parsed_papers)
+                summarized_papers = llm_summarize(papers_list=parsed_papers)
 
                 # 5. 存入 Supabase 数据库
                 logger.info("💾 正在将数据持久化到 Supabase...")
